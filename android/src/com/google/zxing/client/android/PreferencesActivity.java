@@ -16,6 +16,8 @@
 
 package com.google.zxing.client.android;
 
+import com.google.zxing.client.android.camera.FrontLightMode;
+
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Bundle;
@@ -53,6 +55,14 @@ public final class PreferencesActivity extends PreferenceActivity
   //public static final String KEY_DISABLE_EXPOSURE = "preferences_disable_exposure";
 
   public static final String KEY_HELP_VERSION_SHOWN = "preferences_help_version_shown";
+
+  private static FrontLightMode parse(String modeString) {
+    return modeString == null ? FrontLightMode.OFF : FrontLightMode.valueOf(modeString);
+  }
+
+  public static FrontLightMode readPref(SharedPreferences sharedPrefs) {
+    return parse(sharedPrefs.getString(PreferencesActivity.KEY_FRONT_LIGHT_MODE, null));
+  }
 
   private CheckBoxPreference decode1D;
   private CheckBoxPreference decodeQR;

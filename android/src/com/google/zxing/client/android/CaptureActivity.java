@@ -21,6 +21,7 @@ import com.google.zxing.Result;
 import com.google.zxing.ResultMetadataType;
 import com.google.zxing.ResultPoint;
 import com.google.zxing.client.android.camera.CameraManager;
+import com.google.zxing.client.android.camera.CameraDelegate;
 import com.google.zxing.client.android.history.HistoryActivity;
 import com.google.zxing.client.android.history.HistoryItem;
 import com.google.zxing.client.android.history.HistoryManager;
@@ -32,6 +33,7 @@ import com.google.zxing.client.android.share.ShareActivity;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -157,7 +159,13 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     // want to open the camera driver and measure the screen size if we're going to show the help on
     // first launch. That led to bugs where the scanning rectangle was the wrong size and partially
     // off screen.
-    cameraManager = new CameraManager(getApplication());
+    CameraDelegate delegate = new CameraDelegate() {
+      @Override
+      public Context getContext() {
+        return getApplication();
+      }
+    };
+    cameraManager = new CameraManager(delegate);
 
     viewfinderView = (ViewfinderView) findViewById(R.id.viewfinder_view);
     viewfinderView.setCameraManager(cameraManager);
