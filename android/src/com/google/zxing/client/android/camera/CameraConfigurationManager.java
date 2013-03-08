@@ -25,8 +25,6 @@ import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
 
-import com.google.zxing.client.android.PreferencesActivity;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -47,12 +45,14 @@ final class CameraConfigurationManager {
   private static final int MIN_PREVIEW_PIXELS = 470 * 320; // normal screen
   private static final int MAX_PREVIEW_PIXELS = 1280 * 720;
 
+  private final CameraDelegate delegate;
   private final Context context;
   private Point screenResolution;
   private Point cameraResolution;
 
-  CameraConfigurationManager(Context context) {
-    this.context = context;
+  CameraConfigurationManager(CameraDelegate delegate) {
+    this.delegate = delegate;
+    this.context = delegate.getContext();
   }
 
   /**
@@ -97,8 +97,8 @@ final class CameraConfigurationManager {
     initializeTorch(parameters, prefs, safeMode);
 
     String focusMode = null;
-    if (prefs.getBoolean(PreferencesActivity.KEY_AUTO_FOCUS, true)) {
-      if (safeMode || prefs.getBoolean(PreferencesActivity.KEY_DISABLE_CONTINUOUS_FOCUS, false)) {
+    if (delegate.bAutoFocus()) {
+      if (safeMode || delegate.bDisableContinuousFocus()) {
         focusMode = findSettableValue(parameters.getSupportedFocusModes(),
                                       Camera.Parameters.FOCUS_MODE_AUTO);
       } else {
@@ -150,7 +150,7 @@ final class CameraConfigurationManager {
   }
 
   private void initializeTorch(Camera.Parameters parameters, SharedPreferences prefs, boolean safeMode) {
-    boolean currentSetting = FrontLightMode.readPref(prefs) == FrontLightMode.ON;
+    boolean currentSetting = delegate.getFrontLightMode() == FrontLightMode.ON;
     doSetTorch(parameters, currentSetting, safeMode);
   }
 

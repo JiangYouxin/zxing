@@ -26,7 +26,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import com.google.zxing.client.android.PreferencesActivity;
 import com.google.zxing.client.android.common.executor.AsyncTaskExecInterface;
 import com.google.zxing.client.android.common.executor.AsyncTaskExecManager;
 
@@ -47,14 +46,15 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
   private final Camera camera;
   private AutoFocusTask outstandingTask;
   private final AsyncTaskExecInterface taskExec;
+  private final CameraDelegate delegate;
 
-  AutoFocusManager(Context context, Camera camera) {
+  AutoFocusManager(CameraDelegate delegate, Camera camera) {
+    this.delegate = delegate;
     this.camera = camera;
     taskExec = new AsyncTaskExecManager().build();
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
     String currentFocusMode = camera.getParameters().getFocusMode();
     useAutoFocus =
-        sharedPrefs.getBoolean(PreferencesActivity.KEY_AUTO_FOCUS, true) &&
+        delegate.bAutoFocus() &&
         FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
     Log.i(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
     start();
