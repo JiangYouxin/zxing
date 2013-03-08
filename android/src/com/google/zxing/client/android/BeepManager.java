@@ -38,21 +38,21 @@ final class BeepManager {
   private static final float BEEP_VOLUME = 0.10f;
   private static final long VIBRATE_DURATION = 200L;
 
-  private final Activity activity;
+  private final CaptureActivity activity;
   private MediaPlayer mediaPlayer;
   private boolean playBeep;
   private boolean vibrate;
 
-  BeepManager(Activity activity) {
+  BeepManager(CaptureActivity activity) {
     this.activity = activity;
     this.mediaPlayer = null;
     updatePrefs();
   }
 
   void updatePrefs() {
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
-    playBeep = shouldBeep(prefs, activity);
-    vibrate = prefs.getBoolean(PreferencesActivity.KEY_VIBRATE, false);
+    CaptureParams params = activity.getCaptureParams();
+    playBeep = shouldBeep(params, activity);
+    vibrate = params.bVibrate();
     if (playBeep && mediaPlayer == null) {
       // The volume on STREAM_SYSTEM is not adjustable, and users found it too loud,
       // so we now play on the music stream.
@@ -71,8 +71,8 @@ final class BeepManager {
     }
   }
 
-  private static boolean shouldBeep(SharedPreferences prefs, Context activity) {
-    boolean shouldPlayBeep = prefs.getBoolean(PreferencesActivity.KEY_PLAY_BEEP, true);
+  private static boolean shouldBeep(CaptureParams params, Context activity) {
+    boolean shouldPlayBeep = params.bPlayBeep();
     if (shouldPlayBeep) {
       // See if sound settings overrides this
       AudioManager audioService = (AudioManager) activity.getSystemService(Context.AUDIO_SERVICE);

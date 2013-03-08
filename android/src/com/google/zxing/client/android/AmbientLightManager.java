@@ -37,18 +37,18 @@ final class AmbientLightManager implements SensorEventListener {
   private static final float TOO_DARK_LUX = 45.0f;
   private static final float BRIGHT_ENOUGH_LUX = 450.0f;
 
-  private final Context context;
+  private final CaptureActivity context;
   private CameraManager cameraManager;
   private Sensor lightSensor;
 
-  AmbientLightManager(Context context) {
+  AmbientLightManager(CaptureActivity context) {
     this.context = context;
   }
 
   void start(CameraManager cameraManager) {
     this.cameraManager = cameraManager;
-    SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(context);
-    if (PreferencesActivity.readPref(sharedPrefs) == FrontLightMode.AUTO) {
+    CaptureParams params = context.getCaptureParams();
+    if (params.getFrontLightMode() == FrontLightMode.AUTO) {
       SensorManager sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
       lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
       if (lightSensor != null) {

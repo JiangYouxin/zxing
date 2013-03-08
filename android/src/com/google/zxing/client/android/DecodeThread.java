@@ -57,15 +57,15 @@ final class DecodeThread extends Thread {
 
     // The prefs can't change while the thread is running, so pick them up once here.
     if (decodeFormats == null || decodeFormats.isEmpty()) {
-      SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(activity);
+      CaptureParams params = activity.getCaptureParams();
       decodeFormats = EnumSet.noneOf(BarcodeFormat.class);
-      if (prefs.getBoolean(PreferencesActivity.KEY_DECODE_1D, false)) {
+      if (params.bDecode1D()) {
         decodeFormats.addAll(DecodeFormatManager.ONE_D_FORMATS);
       }
-      if (prefs.getBoolean(PreferencesActivity.KEY_DECODE_QR, false)) {
+      if (params.bDecodeQR()) {
         decodeFormats.addAll(DecodeFormatManager.QR_CODE_FORMATS);
       }
-      if (prefs.getBoolean(PreferencesActivity.KEY_DECODE_DATA_MATRIX, false)) {
+      if (params.bDecodeDataMatrix()) {
         decodeFormats.addAll(DecodeFormatManager.DATA_MATRIX_FORMATS);
       }
     }

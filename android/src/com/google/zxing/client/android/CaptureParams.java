@@ -34,4 +34,24 @@ public class CaptureParams implements CameraParams {
   public FrontLightMode getFrontLightMode() {
     return FrontLightMode.ON;
   }
+
+  public boolean bVibrate() {
+    return true;
+  }
+
+  public boolean bPlayBeep() {
+    return true;
+  }
+
+  public boolean bDecode1D() {
+    return true;
+  }
+
+  public boolean bDecodeQR() {
+    return true;
+  }
+
+  public boolean bDecodeDataMatrix() {
+    return true;
+  }
 }
