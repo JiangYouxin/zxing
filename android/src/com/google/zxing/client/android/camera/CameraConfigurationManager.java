@@ -45,14 +45,14 @@ final class CameraConfigurationManager {
   private static final int MIN_PREVIEW_PIXELS = 470 * 320; // normal screen
   private static final int MAX_PREVIEW_PIXELS = 1280 * 720;
 
-  private final CameraDelegate delegate;
+  private final CameraParams params;
   private final Context context;
   private Point screenResolution;
   private Point cameraResolution;
 
-  CameraConfigurationManager(CameraDelegate delegate) {
-    this.delegate = delegate;
-    this.context = delegate.getContext();
+  CameraConfigurationManager(CameraParams params) {
+    this.params = params;
+    this.context = params.getContext();
   }
 
   /**
@@ -97,8 +97,8 @@ final class CameraConfigurationManager {
     initializeTorch(parameters, prefs, safeMode);
 
     String focusMode = null;
-    if (delegate.bAutoFocus()) {
-      if (safeMode || delegate.bDisableContinuousFocus()) {
+    if (params.bAutoFocus()) {
+      if (safeMode || params.bDisableContinuousFocus()) {
         focusMode = findSettableValue(parameters.getSupportedFocusModes(),
                                       Camera.Parameters.FOCUS_MODE_AUTO);
       } else {
@@ -150,7 +150,7 @@ final class CameraConfigurationManager {
   }
 
   private void initializeTorch(Camera.Parameters parameters, SharedPreferences prefs, boolean safeMode) {
-    boolean currentSetting = delegate.getFrontLightMode() == FrontLightMode.ON;
+    boolean currentSetting = params.getFrontLightMode() == FrontLightMode.ON;
     doSetTorch(parameters, currentSetting, safeMode);
   }
 

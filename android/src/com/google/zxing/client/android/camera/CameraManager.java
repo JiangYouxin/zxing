@@ -59,12 +59,12 @@ public final class CameraManager {
    * clear the handler so it will only receive one message.
    */
   private final PreviewCallback previewCallback;
-  private final CameraDelegate delegate;
+  private final CameraParams params;
 
-  public CameraManager(CameraDelegate delegate) {
-    this.delegate = delegate;
-    this.context = delegate.getContext();
-    this.configManager = new CameraConfigurationManager(delegate);
+  public CameraManager(CameraParams params) {
+    this.params = params;
+    this.context = params.getContext();
+    this.configManager = new CameraConfigurationManager(params);
     previewCallback = new PreviewCallback(configManager);
   }
 
@@ -145,7 +145,7 @@ public final class CameraManager {
     if (theCamera != null && !previewing) {
       theCamera.startPreview();
       previewing = true;
-      autoFocusManager = new AutoFocusManager(delegate, camera);
+      autoFocusManager = new AutoFocusManager(params, camera);
     }
   }
 

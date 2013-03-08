@@ -46,15 +46,15 @@ final class AutoFocusManager implements Camera.AutoFocusCallback {
   private final Camera camera;
   private AutoFocusTask outstandingTask;
   private final AsyncTaskExecInterface taskExec;
-  private final CameraDelegate delegate;
+  private final CameraParams params;
 
-  AutoFocusManager(CameraDelegate delegate, Camera camera) {
-    this.delegate = delegate;
+  AutoFocusManager(CameraParams params, Camera camera) {
+    this.params = params;
     this.camera = camera;
     taskExec = new AsyncTaskExecManager().build();
     String currentFocusMode = camera.getParameters().getFocusMode();
     useAutoFocus =
-        delegate.bAutoFocus() &&
+        params.bAutoFocus() &&
         FOCUS_MODES_CALLING_AF.contains(currentFocusMode);
     Log.i(TAG, "Current focus mode '" + currentFocusMode + "'; use auto focus? " + useAutoFocus);
     start();
