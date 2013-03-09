@@ -23,7 +23,6 @@ import com.google.zxing.ResultPointCallback;
 import android.content.SharedPreferences;
 import android.os.Handler;
 import android.os.Looper;
-import android.preference.PreferenceManager;
 
 import java.util.Collection;
 import java.util.EnumMap;

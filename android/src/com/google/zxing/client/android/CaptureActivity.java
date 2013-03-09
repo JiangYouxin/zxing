@@ -37,7 +37,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.text.ClipboardManager;
 import android.util.Log;
 import android.util.TypedValue;
@@ -134,8 +133,6 @@ public final class CaptureActivity extends Activity implements SurfaceHolder.Cal
     inactivityTimer = new InactivityTimer(this);
     beepManager = new BeepManager(this);
     ambientLightManager = new AmbientLightManager(this);
-
-    PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
   }
 
   @Override

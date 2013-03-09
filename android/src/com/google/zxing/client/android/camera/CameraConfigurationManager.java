@@ -20,7 +20,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.hardware.Camera;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
 import android.view.WindowManager;
@@ -92,9 +91,7 @@ final class CameraConfigurationManager {
       Log.w(TAG, "In camera config safe mode -- most settings will not be honored");
     }
 
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-
-    initializeTorch(parameters, prefs, safeMode);
+    initializeTorch(parameters, safeMode);
 
     String focusMode = null;
     if (params.bAutoFocus()) {
@@ -149,7 +146,7 @@ final class CameraConfigurationManager {
     camera.setParameters(parameters);
   }
 
-  private void initializeTorch(Camera.Parameters parameters, SharedPreferences prefs, boolean safeMode) {
+  private void initializeTorch(Camera.Parameters parameters, boolean safeMode) {
     boolean currentSetting = params.getFrontLightMode() == FrontLightMode.ON;
     doSetTorch(parameters, currentSetting, safeMode);
   }
