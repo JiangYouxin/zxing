@@ -1,4 +1,5 @@
 /*
+ * @author: jiangyouxin9@gmail.com
  */
 
 package com.google.zxing.client.android;
@@ -32,7 +33,7 @@ public class CaptureParams implements CameraParams {
 
   @Override
   public FrontLightMode getFrontLightMode() {
-    return FrontLightMode.ON;
+    return FrontLightMode.AUTO;
   }
 
   public boolean bVibrate() {

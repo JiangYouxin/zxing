@@ -1,4 +1,5 @@
 /*
+ * @author: jiangyouxin9@gmail.com
  */
 
 package com.google.zxing.client.android.camera;
